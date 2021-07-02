@@ -13,7 +13,7 @@ class MyCar
   end
 
   def to_s
-    "This is a #{2021} #{model} in #{color}."
+    "This is a #{year} #{model} in #{color}."
   end
 end
 
