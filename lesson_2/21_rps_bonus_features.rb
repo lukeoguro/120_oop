@@ -190,7 +190,8 @@ end
 
 class Scoreboard
   include Displayable
-  attr_accessor :history, :human, :computer, :score
+  attr_reader :human, :computer
+  attr_accessor :history, :score
 
   WIN_SCORE = 5
 
@@ -212,11 +213,11 @@ class Scoreboard
   end
 
   def display_current_score
-    prompt(score.map { |key, value| "#{key}: #{value}" }.join(' | '))
+    prompt(score.map { |player, points| "#{player}: #{points}" }.join(' | '))
   end
 
   def game_over?
-    score.any? { |_, value| value == WIN_SCORE }
+    score.any? { |_, points| points == WIN_SCORE }
   end
 
   def grand_winner
@@ -234,14 +235,14 @@ class Scoreboard
   def display_history
     prompt("Here's the game history:")
     history.each.with_index(1) do |round, index|
-      choices = round.map { |player, move| "#{player} -> #{move}" }.join(' | ')
-      prompt("  Round #{index}: #{choices}")
+      moves = round.map { |player, move| "#{player} -> #{move}" }.join(' | ')
+      prompt("  Round #{index}: #{moves}")
     end
   end
 
   def reset
     self.history = []
-    score.keys.each { |key| score[key] = 0 }
+    score.keys.each { |player| score[player] = 0 }
   end
 end
 
