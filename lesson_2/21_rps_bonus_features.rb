@@ -193,7 +193,7 @@ class Scoreboard
   attr_reader :human, :computer
   attr_accessor :history, :score
 
-  WIN_SCORE = 5
+  WIN_SCORE = 10
 
   def initialize(human, computer)
     @history = []
