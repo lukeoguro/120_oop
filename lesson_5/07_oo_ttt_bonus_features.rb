@@ -85,8 +85,8 @@ class Board
     unmarked_keys.empty?
   end
 
-  def reset_markers
-    squares.each_value(&:reset_marker)
+  def reset_markers!
+    squares.each_value(&:reset_marker!)
   end
 
   def third_square_key(marker)
@@ -126,7 +126,7 @@ class Square
     marker != INITIAL_MARKER
   end
 
-  def reset_marker
+  def reset_marker!
     self.marker = INITIAL_MARKER
   end
 end
@@ -213,7 +213,7 @@ end
 class TTTGame
   include Displayable
 
-  WIN_SCORE = 3
+  WIN_SCORE = 5
 
   def initialize
     @board = Board.new
@@ -227,7 +227,7 @@ class TTTGame
 
     loop do
       play_game
-      game_over? && play_game_again? ? next : break
+      (game_over? && play_game_again?) ? next : break
     end
 
     display_goodbye
@@ -258,7 +258,7 @@ class TTTGame
     human.set_marker
     computer.ensure_unique_marker(human.marker)
 
-    clear_and_prompt("Your marker is '#{human.marker}'. "\
+    clear_and_prompt("Good choice! Your marker is '#{human.marker}'. "\
       "We're all set, let's play!")
     enter_to_continue
   end
@@ -339,7 +339,7 @@ class TTTGame
     log_score
     display_score
 
-    board.reset_markers
+    board.reset_markers!
   end
 
   def display_round_winner
