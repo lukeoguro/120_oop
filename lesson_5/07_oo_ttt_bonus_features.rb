@@ -162,7 +162,7 @@ class Human < Player
   def set_marker
     input = nil
     loop do
-      prompt("Choose any character as your marker "\
+      prompt("Choose a single character as your marker "\
         "(press enter for default '#{DEFAULT_MARKER}'):")
       input = gets.chomp.strip
       break if input.empty? || input.size == 1
@@ -215,6 +215,8 @@ class TTTGame
 
   WIN_SCORE = 5
 
+  CHOICES = { human: 1, computer: 2, random: 3 }
+
   def initialize
     @board = Board.new
     @human = Human.new
@@ -227,7 +229,7 @@ class TTTGame
 
     loop do
       play_game
-      (game_over? && play_game_again?) ? next : break
+      break unless game_over? && play_game_again?
     end
 
     display_goodbye
@@ -267,9 +269,10 @@ class TTTGame
     input = nil
     loop do
       prompt("Who goes first in each round? "\
-        "1) Player, 2) #{computer}, 3) Random")
+        "#{CHOICES[:human]}) Player, #{CHOICES[:computer]}) #{computer}, "\
+        "#{CHOICES[:random]}) Random")
       input = gets.chomp.strip
-      break if valid_int?(input) && (1..3).include?(input.to_i)
+      break if valid_int?(input) && CHOICES.values.include?(input.to_i)
       prompt("That's not a valid choice.")
     end
     self.starting_player = convert_input_to_player(input.to_i)
@@ -277,9 +280,9 @@ class TTTGame
 
   def convert_input_to_player(input)
     case input
-    when 1 then human
-    when 2 then computer
-    when 3 then [human, computer].sample
+    when CHOICES[:human] then human
+    when CHOICES[:computer] then computer
+    when CHOICES[:random] then [human, computer].sample
     end
   end
 
