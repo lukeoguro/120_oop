@@ -7,7 +7,7 @@ end
 
 class Graduate < Student
   def initialize(name, year, parking)
-    super(name, student)
+    super(name, year)
     @parking = parking
   end
 end

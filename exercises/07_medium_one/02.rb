@@ -1,30 +1,25 @@
 class FixedArray
-  def initialize(length)
-    @array = Array.new(length)
+  def initialize(size)
+    @array = [nil] * size
+  end
+
+  def to_a
+    @array
+  end
+
+  def to_s
+    @array.to_s
   end
 
   def [](index)
-    array.fetch(index)
+    @array.fetch(index)
   end
 
   def []=(index, value)
     self[index]
-    array[index] = value
+    @array[index] = value
   end
-
-  def to_a
-    array.dup
-  end
-
-  def to_s
-    array.to_s
-  end
-
-  private
-
-  attr_accessor :array
 end
-
 
 fixed_array = FixedArray.new(5)
 puts fixed_array[3] == nil
